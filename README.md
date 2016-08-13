@@ -12,6 +12,6 @@ Note: Currently, **all data structures are single threaded**.
 
 |          Feature           |                           Description                           |
 |----------------------------|-----------------------------------------------------------------|
-| Additional Data Structures | Fibonacci Heaps, Skip Lists, B-Trees, Suffix Tries, Graphs      |
+| Additional Data Structures | Fibonacci Heaps, Skip Lists, B-Trees, Suffix Trees, Graphs      |
 | Thread-Safety              | Make lock-based thread-safe version for each data structure     |     
 | Lock-Free Thread-Safety    | Make lock-free thread-safe version for relevant data structures |     
