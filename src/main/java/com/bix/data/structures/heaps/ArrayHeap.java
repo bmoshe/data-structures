@@ -1,14 +1,20 @@
 package com.bix.data.structures.heaps;
 
+import com.bix.data.structures.base.BaseComparingStructure;
+
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
  * Min/Max Heap implemented with an array.
+ * Defaults to MaxHeap.
  */
 public class ArrayHeap<T extends Comparable>
+extends BaseComparingStructure<T>
 implements Heap<T> {
 
-    private Comparator<T> comparator;
+    private static final int RESIZING_MULTIPLIER = 2;
+    private int downsizingThreshold;
 
     private Comparable[] data;
     private int size;
@@ -32,23 +38,23 @@ implements Heap<T> {
     }
 
     public ArrayHeap(int maxSize, Comparator<T> comparator) {
+        super(comparator);
+
         this.data = new Comparable[maxSize];
 
         this.size = 0;
         this.maxSize = maxSize;
 
-        this.comparator = comparator;
     }
 
     // Used by ArrayHeap.sort to Heap-sort an array.
     // https://en.wikipedia.org/wiki/Heapsort
     private ArrayHeap(T[] array, Comparator<T> comparator) {
+        super(comparator);
         this.data = array;
 
         this.size = array.length;
         this.maxSize = array.length;
-
-        this.comparator = comparator;
 
         heapify();
     }
@@ -66,9 +72,23 @@ implements Heap<T> {
 
     @Override
     public void add(T value) {
+        enlargeIfNeeded();
+
         data[size] = value;
         bubbleUp(size);
         size++;
+    }
+
+    private void enlargeIfNeeded() {
+        if(size == maxSize) {
+            data = Arrays.copyOf(data, RESIZING_MULTIPLIER * maxSize);
+            refreshSizingParameters();
+        }
+    }
+
+    private void refreshSizingParameters() {
+        maxSize = data.length;
+        downsizingThreshold = (3 * maxSize) / 8;
     }
 
     // Fixes a one change from bottom to top.
@@ -84,23 +104,24 @@ implements Heap<T> {
         }
     }
 
-    private int compare(Comparable a, Comparable b) {
-        if(comparator != null) {
-            return comparator.compare((T) a, (T) b);
-        } else {
-            return a.compareTo(b);
-        }
-    }
-
     @Override
     public T removeTop() {
         T ret = getTop();
 
         size--;
         data[0] = data[size];
+
         bubbleDown(0);
+        downsizeIfNeeded();
 
         return ret;
+    }
+
+    private void downsizeIfNeeded() {
+        if(size < downsizingThreshold) {
+            data = Arrays.copyOf(data, maxSize / 2);
+            refreshSizingParameters();
+        }
     }
 
     // Fixes a one change from top to bottom.
@@ -153,6 +174,7 @@ implements Heap<T> {
         size--;
 
         bubbleDown(index);
+        downsizeIfNeeded();
 
         return ret;
     }

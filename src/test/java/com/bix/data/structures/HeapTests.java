@@ -1,18 +1,20 @@
 package com.bix.data.structures;
 
 import com.bix.data.structures.heaps.ArrayHeap;
+import com.bix.data.structures.heaps.ContinuousMedian;
 import com.bix.data.structures.heaps.Heap;
 import com.bix.data.structures.helpers.ArrayHelper;
 import com.bix.data.structures.helpers.FunctionalConstructVisitor;
 import com.bix.data.structures.helpers.HeapHelper;
 import com.bix.data.structures.helpers.RandomHelper;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.Random;
-import java.util.logging.Logger;
+import java.util.stream.Stream;
+
+import static java.util.Comparator.reverseOrder;
 
 /**
  * Created by bmoshe on 24/07/16.
@@ -65,7 +67,7 @@ public class HeapTests {
 
     @Test
     public void testHeapComparator() {
-        Heap<Integer> heap = HeapHelper.create((FunctionalConstructVisitor<Integer>) (i, N) -> i, N, Comparator.reverseOrder());
+        Heap<Integer> heap = HeapHelper.create((FunctionalConstructVisitor<Integer>) (i, N) -> i, N, reverseOrder());
 
         // Testing that minimal value is indeed the top.
         Assert.assertEquals((int) heap.getTop(), 0);
@@ -111,7 +113,7 @@ public class HeapTests {
         final Random random = RandomHelper.createRandom();
         final Integer[] arrayToSort = ArrayHelper.createIntArray((i, N) -> random.nextInt(N), N);
 
-        ArrayHeap.sort(arrayToSort, Comparator.reverseOrder());
+        ArrayHeap.sort(arrayToSort, reverseOrder());
 
         for(int i = 1; i < N; i++) {
             Assert.assertTrue(arrayToSort[i] + " should be <= than " + arrayToSort[i - 1],
