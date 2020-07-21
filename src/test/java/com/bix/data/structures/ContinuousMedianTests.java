@@ -4,24 +4,32 @@ import com.bix.data.structures.heaps.ContinuousMedian;
 import com.bix.data.structures.helpers.ArrayHelper;
 import com.bix.data.structures.helpers.RandomHelper;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Random;
 
 /**
- * Created by bmoshe on 24/07/16.
+ * Created by bmoshe on 2020-07-21.
  */
 public class ContinuousMedianTests {
 
-    private static final int N = 10000;
+    private static final int N = 250000;
+
+    private ContinuousMedian<Integer> continuousMedian;
+    private Integer[] allValues;
+
+    @Before
+    public void setupTest() {
+        continuousMedian = new ContinuousMedian<>();
+
+        final Random random = RandomHelper.createRandom();
+        allValues = ArrayHelper.createIntArray((i, N) -> random.nextInt(N), N);
+    }
 
     @Test
     public void testGetMedian() {
-        ContinuousMedian<Integer> continuousMedian = new ContinuousMedian<>();
-
-        final Random random = RandomHelper.createRandom();
-        final Integer[] allValues = ArrayHelper.createIntArray((i, N) -> random.nextInt(N), N);
 
         for(Integer value : allValues) {
             continuousMedian.add(value);
@@ -33,11 +41,6 @@ public class ContinuousMedianTests {
 
     @Test
     public void testRemoveMedian() {
-        ContinuousMedian<Integer> continuousMedian = new ContinuousMedian<>();
-
-        final Random random = RandomHelper.createRandom();
-        final Integer[] allValues = ArrayHelper.createIntArray((i, N) -> random.nextInt(N), N);
-
         for(Integer value : allValues) {
             continuousMedian.add(value);
         }

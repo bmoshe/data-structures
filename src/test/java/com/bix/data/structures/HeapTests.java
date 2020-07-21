@@ -1,7 +1,6 @@
 package com.bix.data.structures;
 
 import com.bix.data.structures.heaps.ArrayHeap;
-import com.bix.data.structures.heaps.ContinuousMedian;
 import com.bix.data.structures.heaps.Heap;
 import com.bix.data.structures.helpers.ArrayHelper;
 import com.bix.data.structures.helpers.FunctionalConstructVisitor;
@@ -10,9 +9,7 @@ import com.bix.data.structures.helpers.RandomHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Random;
-import java.util.stream.Stream;
 
 import static java.util.Comparator.reverseOrder;
 
