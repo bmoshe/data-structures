@@ -10,15 +10,15 @@ import java.util.Comparator;
  */
 public class HeapHelper {
 
-    public static <T extends Comparable> Heap<T> createEmpty(int maxSize) {
+    public static <T extends Comparable<T>> Heap<T> createEmpty(int maxSize) {
         return new ArrayHeap<>(maxSize);
     }
 
-    public static <T extends Comparable> Heap<T> createEmpty(int maxSize, Comparator<T> comparator) {
+    public static <T extends Comparable<T>> Heap<T> createEmpty(int maxSize, Comparator<T> comparator) {
         return new ArrayHeap<>(maxSize, comparator);
     }
 
-    public static <T extends Comparable> Heap<T> create(FunctionalConstructVisitor<T> visitor, int maxSize) {
+    public static <T extends Comparable<T>> Heap<T> create(FunctionalConstructVisitor<T> visitor, int maxSize) {
 
         Heap<T> heap = new ArrayHeap<>(maxSize);
         for(int i = 0; i < maxSize; i++) {
@@ -28,7 +28,7 @@ public class HeapHelper {
         return heap;
     }
 
-    public static <T extends Comparable> Heap<T> create(FunctionalConstructVisitor<T> visitor, int maxSize, Comparator<T> comparator) {
+    public static <T extends Comparable<T>> Heap<T> create(FunctionalConstructVisitor<T> visitor, int maxSize, Comparator<T> comparator) {
 
         Heap<T> heap = new ArrayHeap<>(maxSize, comparator);
         for(int i = 0; i < maxSize; i++) {

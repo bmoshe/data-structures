@@ -3,6 +3,7 @@ package com.bix.data.structures;
 import com.bix.data.structures.heaps.ArrayHeap;
 import com.bix.data.structures.heaps.Heap;
 import com.bix.data.structures.helpers.ArrayHelper;
+import com.bix.data.structures.helpers.FunctionalConstructVisitor;
 import com.bix.data.structures.helpers.HeapHelper;
 import com.bix.data.structures.helpers.RandomHelper;
 
@@ -17,8 +18,6 @@ import java.util.logging.Logger;
  * Created by bmoshe on 24/07/16.
  */
 public class HeapTests {
-
-    private Logger log = Logger.getLogger(HeapTests.class.getName());
 
     private static final int N = 250000;
     private static final int NUM_PASSES = 10;
@@ -66,7 +65,7 @@ public class HeapTests {
 
     @Test
     public void testHeapComparator() {
-        Heap<Integer> heap = HeapHelper.create((i, N) -> i, N, Comparator.reverseOrder());
+        Heap<Integer> heap = HeapHelper.create((FunctionalConstructVisitor<Integer>) (i, N) -> i, N, Comparator.reverseOrder());
 
         // Testing that minimal value is indeed the top.
         Assert.assertEquals((int) heap.getTop(), 0);
@@ -100,7 +99,6 @@ public class HeapTests {
         final Integer[] arrayToSort = ArrayHelper.createIntArray((i, N) -> random.nextInt(N), N);
 
         ArrayHeap.sort(arrayToSort);
-
         for(int i = 1; i < N; i++) {
             Assert.assertTrue(arrayToSort[i - 1] + " should be <= than " + arrayToSort[i],
                               arrayToSort[i - 1] <= arrayToSort[i]);
