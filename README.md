@@ -2,9 +2,10 @@
 A data structure library written in Java
 
 Currently supported:
-* Min/Max Heaps.
-* AVL Trees.
-* Tries.
+* Min/Max Heaps
+* AVL Trees
+* Tries
+* Union-Find (a.k.a. Disjoint Set)
 
 Note: Currently, **all data structures are single threaded**.
 
