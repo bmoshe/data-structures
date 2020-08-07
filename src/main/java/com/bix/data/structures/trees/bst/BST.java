@@ -1,10 +1,8 @@
 package com.bix.data.structures.trees.bst;
 
 import java.util.Iterator;
-import java.util.Stack;
 
-public class BST<T extends Comparable<T>>
-implements Iterable<T> {
+public class BST<T extends Comparable<T>> {
     private Node<T> root;
     private int size;
 
@@ -27,69 +25,16 @@ implements Iterable<T> {
         return this.size;
     }
 
-    public Iterator<T> iterator() {
-        return new BSTIterator();
+    public Iterator<T> inOrderIterator() {
+        return new InOrderIterator<>(root);
     }
 
-    static class Node<T extends Comparable<T>> {
-        private T value;
-        private Node<T> left;
-        private Node<T> right;
-
-        Node(T value) {
-            this.value = value;
-        }
-
-        void add(T value) {
-            int comparison = this.value.compareTo(value);
-            if(comparison > 0) {
-               if(this.left != null) {
-                   this.left.add(value);
-               } else {
-                   this.left = new Node<>(value);
-               }
-            } else {
-                if(this.right != null) {
-                    this.right.add(value);
-                } else {
-                    this.right = new Node<>(value);
-                }
-            }
-        }
+    public Iterator<T> preOrderIterator() {
+        return new PreOrderIterator<>(root);
     }
 
-    class BSTIterator
-    implements Iterator<T> {
-
-        private Stack<Node<T>> stack;
-
-        public BSTIterator() {
-            this.stack = new Stack<>();
-
-            recurse(root);
-        }
-
-        private void recurse(Node<T> root) {
-            Node<T> it = root;
-            while(it != null) {
-                this.stack.push(it);
-                it = it.left;
-            }
-        }
-
-        @Override
-        public boolean hasNext() {
-            return !stack.isEmpty();
-        }
-
-        @Override
-        public T next() {
-            Node<T> node = stack.pop();
-            if(node.right != null) {
-                recurse(node.right);
-            }
-
-            return node.value;
-        }
+    public Iterator<T>  postOrderIterator() {
+        return new PostOrderIterator<>(root);
     }
+
 }
