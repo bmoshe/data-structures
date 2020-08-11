@@ -17,16 +17,20 @@ import java.util.Map;
 public class UnionFind<T> {
     Map<T, Integer> index;
     List<UFContainer<T>> data;
+    int size;
 
     public UnionFind() {
         this.index = new HashMap<>();
         this.data = new ArrayList<>();
+
+        this.size = 0;
     }
 
     public void makeSet(T value) {
         int idx = data.size();
         index.put(value, idx);
         data.add(new UFContainer<>(value, idx, 1));
+        size++;
     }
 
     public boolean union(T a, T b) {
@@ -44,6 +48,7 @@ public class UnionFind<T> {
                 representativeOfA.size += representativeOfB.size;
             }
 
+            size--;
             return true;
         }
 
@@ -60,6 +65,10 @@ public class UnionFind<T> {
         int idx = index.get(value);
         UFContainer<T> representativeContainer = getRepresentativeOf(idx);
         return representativeContainer.size;
+    }
+
+    public int size() {
+        return this.size;
     }
 
     // Used for testing that path has indeed been compressed.
