@@ -4,11 +4,12 @@ import com.bix.data.structures.heaps.ArrayMinMaxHeap;
 import com.bix.data.structures.heaps.MinMaxHeap;
 import com.bix.data.structures.helpers.ArrayHelper;
 import com.bix.data.structures.helpers.RandomHelper;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by bmoshe on 2020-07-21.
@@ -20,7 +21,7 @@ public class MinMaxHeapTests {
     private Integer[] values;
     private MinMaxHeap<Integer> minMaxHeap;
 
-    @Before
+    @BeforeEach
     public void setupTest() {
         final Random random = RandomHelper.createRandom();
         values = ArrayHelper.createIntArray((i, N) -> random.nextInt(), N);
@@ -39,7 +40,7 @@ public class MinMaxHeapTests {
             }
         }
 
-        Assert.assertEquals(min, minMaxHeap.getMin());
+        assertEquals(min, minMaxHeap.getMin());
     }
 
     @Test
@@ -53,7 +54,7 @@ public class MinMaxHeapTests {
             }
         }
 
-        Assert.assertEquals(max, minMaxHeap.getMax());
+        assertEquals(max, minMaxHeap.getMax());
     }
 
     @Test
@@ -73,7 +74,7 @@ public class MinMaxHeapTests {
         }
 
         Arrays.sort(values);
-        Assert.assertArrayEquals(values, actual);
+        assertArrayEquals(values, actual);
     }
 
     @Test
@@ -88,7 +89,7 @@ public class MinMaxHeapTests {
         }
 
         Arrays.sort(values, Comparator.reverseOrder());
-        Assert.assertArrayEquals(values, actual);
+        assertArrayEquals(values, actual);
     }
 
     @Test
@@ -107,7 +108,7 @@ public class MinMaxHeapTests {
         }
 
         Arrays.sort(values, Comparator.reverseOrder());
-        Assert.assertArrayEquals(values, actual);
+        assertArrayEquals(values, actual);
     }
 
     @Test
@@ -118,16 +119,9 @@ public class MinMaxHeapTests {
         for(Integer value : values) {
             minMaxHeap.add(value);
             int op = rand.nextInt(8);
-            switch(op) {
-                case 0:
-                    quirks.add(minMaxHeap.removeMax());
-
-                break;
-                case 1:
-                    quirks.add(minMaxHeap.removeMin());
-
-                break;
-
+            switch (op) {
+                case 0 -> quirks.add(minMaxHeap.removeMax());
+                case 1 -> quirks.add(minMaxHeap.removeMin());
             }
         }
 
@@ -140,9 +134,9 @@ public class MinMaxHeapTests {
             actual[i] = minMaxHeap.removeMin();
         }
 
-        Assert.assertTrue(minMaxHeap.isEmpty());
+        assertTrue(minMaxHeap.isEmpty());
 
         Arrays.sort(values);
-        Assert.assertArrayEquals(values, actual);
+        assertArrayEquals(values, actual);
     }
 }

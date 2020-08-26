@@ -2,15 +2,13 @@ package com.bix.data.structures;
 
 import com.bix.data.structures.helpers.IteratorHelper;
 import com.bix.data.structures.trees.bst.BST;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.List;
 
-import static java.util.Spliterator.ORDERED;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Created by bmoshe on 23/07/16.
@@ -21,7 +19,7 @@ public class BSTTests {
     private int additionOpCounter;
     private int deletionOpCounter;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.tree = new BST<>();
         this.additionOpCounter = 0;
@@ -39,22 +37,22 @@ public class BSTTests {
 
     @Test
     public void testAdditions() {
-        Assert.assertEquals("Tree size must match number of additions - number of deletions.", expectedNumberOfElements(), tree.size());
+        assertEquals(expectedNumberOfElements(), tree.size(), "Tree size must match number of additions - number of deletions.");
         add("Of");
         add("Freedom");
-        Assert.assertEquals("Tree size must match number of additions - number of deletions.", expectedNumberOfElements(), tree.size());
+        assertEquals(expectedNumberOfElements(), tree.size(), "Tree size must match number of additions - number of deletions.");
         add("World");
-        Assert.assertEquals("Tree size must match number of additions - number of deletions, with duplicates", expectedNumberOfElements(), tree.size());
+        assertEquals(expectedNumberOfElements(), tree.size(), "Tree size must match number of additions - number of deletions, with duplicates");
     }
 
     @Test
     public void testEmptyTree() {
         BST<String> emptyTree = new BST<>();
 
-        Assert.assertEquals(0, emptyTree.size());
-        Assert.assertFalse(emptyTree.preOrderIterator().hasNext());
-        Assert.assertFalse(emptyTree.inOrderIterator().hasNext());
-        Assert.assertFalse(emptyTree.postOrderIterator().hasNext());
+        assertEquals(0, emptyTree.size());
+        assertFalse(emptyTree.preOrderIterator().hasNext());
+        assertFalse(emptyTree.inOrderIterator().hasNext());
+        assertFalse(emptyTree.postOrderIterator().hasNext());
     }
 
     @Test
@@ -67,7 +65,7 @@ public class BSTTests {
         List<String> expected = List.of("Aloha", "Freedom", "Hello", "New", "Of", "World", "World");
         List<String> actual = IteratorHelper.convertToList(tree.inOrderIterator());
 
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -80,7 +78,7 @@ public class BSTTests {
         List<String> expected = List.of("Hello", "Aloha", "Freedom", "New", "World", "Of", "World");
         List<String> actual = IteratorHelper.convertToList(tree.preOrderIterator());
 
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -93,7 +91,7 @@ public class BSTTests {
         List<String> expected = List.of("Freedom", "Aloha", "Of", "World", "World", "New", "Hello");
         List<String> actual = IteratorHelper.convertToList(tree.postOrderIterator());
 
-        Assert.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     private int expectedNumberOfElements() {

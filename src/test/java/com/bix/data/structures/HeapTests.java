@@ -6,12 +6,12 @@ import com.bix.data.structures.helpers.ArrayHelper;
 import com.bix.data.structures.helpers.FunctionalConstructVisitor;
 import com.bix.data.structures.helpers.HeapHelper;
 import com.bix.data.structures.helpers.RandomHelper;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
 import static java.util.Comparator.reverseOrder;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by bmoshe on 24/07/16.
@@ -29,16 +29,16 @@ public class HeapTests {
 
         Integer actualMax = heap.removeTop();
         while(!heap.isEmpty()) {
-            Assert.assertNotNull(actualMax);
+            assertNotNull(actualMax);
 
             Integer newMax = heap.removeTop();
-            Assert.assertTrue(actualMax >= newMax);
+            assertTrue(actualMax >= newMax);
 
             actualMax = newMax;
         }
 
-        Assert.assertTrue(heap.isEmpty());
-        Assert.assertNull(heap.getTop());
+        assertTrue(heap.isEmpty());
+        assertNull(heap.getTop());
     }
 
     @Test
@@ -50,16 +50,16 @@ public class HeapTests {
 
             // Remove existing value.
             int removedItem = heap.remove(itemToRemove);
-            Assert.assertEquals(removedItem, itemToRemove);
+            assertEquals(removedItem, itemToRemove);
 
             // Remove not-existing value (by removing the same item twice).
-            Assert.assertEquals(heap.getSize(), N - i - 1);
-            Assert.assertNull(heap.remove(itemToRemove));
+            assertEquals(heap.getSize(), N - i - 1);
+            assertNull(heap.remove(itemToRemove));
         }
 
-        Assert.assertEquals(heap.getMaxSize(), N);
-        Assert.assertEquals(heap.getSize(), N - NUM_PASSES);
-        Assert.assertFalse(heap.isEmpty());
+        assertEquals(heap.getMaxSize(), N);
+        assertEquals(heap.getSize(), N - NUM_PASSES);
+        assertFalse(heap.isEmpty());
     }
 
     @Test
@@ -67,7 +67,7 @@ public class HeapTests {
         Heap<Integer> heap = HeapHelper.create((FunctionalConstructVisitor<Integer>) (i, N) -> i, N, reverseOrder());
 
         // Testing that minimal value is indeed the top.
-        Assert.assertEquals((int) heap.getTop(), 0);
+        assertEquals((int) heap.getTop(), 0);
 
         // Testing removal of NUM_PASSES items.
         final Random random = RandomHelper.createRandom();
@@ -75,17 +75,17 @@ public class HeapTests {
             int itemToRemove = SEGMENT_SIZE * i + random.nextInt(SEGMENT_SIZE);
 
             int removedItem = heap.remove(itemToRemove);
-            Assert.assertEquals(removedItem, itemToRemove);
+            assertEquals(removedItem, itemToRemove);
 
-            Assert.assertEquals(heap.getSize(), N - i - 1);
-            Assert.assertNull(heap.remove(itemToRemove));
+            assertEquals(heap.getSize(), N - i - 1);
+            assertNull(heap.remove(itemToRemove));
         }
 
         // Testing that removeTop maintains correct order.
         int min = heap.getTop();
         while(!heap.isEmpty()) {
             int currentValue = heap.removeTop();
-            Assert.assertTrue(min <= currentValue);
+            assertTrue(min <= currentValue);
 
             min = currentValue;
         }
@@ -99,8 +99,10 @@ public class HeapTests {
 
         ArrayHeap.sort(arrayToSort);
         for(int i = 1; i < N; i++) {
-            Assert.assertTrue(arrayToSort[i - 1] + " should be <= than " + arrayToSort[i],
-                              arrayToSort[i - 1] <= arrayToSort[i]);
+            assertTrue(
+                arrayToSort[i - 1] <= arrayToSort[i],
+                arrayToSort[i - 1] + " should be <= than " + arrayToSort[i]
+            );
         }
     }
 
@@ -113,8 +115,10 @@ public class HeapTests {
         ArrayHeap.sort(arrayToSort, reverseOrder());
 
         for(int i = 1; i < N; i++) {
-            Assert.assertTrue(arrayToSort[i] + " should be <= than " + arrayToSort[i - 1],
-                              arrayToSort[i] <= arrayToSort[i - 1]);
+            assertTrue(
+                arrayToSort[i] <= arrayToSort[i - 1],
+                arrayToSort[i] + " should be <= than " + arrayToSort[i - 1]
+            );
         }
     }
 }

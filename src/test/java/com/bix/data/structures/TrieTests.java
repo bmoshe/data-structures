@@ -1,10 +1,10 @@
 package com.bix.data.structures;
 
 import com.bix.data.structures.trees.trie.TrieNode;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by bmoshe on 30/07/16.
@@ -13,7 +13,7 @@ public class TrieTests {
 
     private TrieNode trie;
 
-    @Before
+    @BeforeEach
     public void setupTest() {
         trie = new TrieNode();
 
@@ -41,12 +41,12 @@ public class TrieTests {
         trie.removeNode("Supernat");
 
         // Try to remove a non-leaf word.
-        Assert.assertTrue(trie.contains("Super"));
+        assertTrue(trie.contains("Super"));
 
         trie.removeNode("Super");
 
-        Assert.assertFalse(trie.contains("Super"));
-        Assert.assertTrue(trie.contains("Supernatural"));
+        assertFalse(trie.contains("Super"));
+        assertTrue(trie.contains("Supernatural"));
 
         // Try to remove a leaf word.
         trie.removeNode("Supernaturally");
@@ -56,38 +56,38 @@ public class TrieTests {
     public void testTrieContains() {
 
         // Existing top-level word.
-        Assert.assertTrue(trie.contains("Sup"));
+        assertTrue(trie.contains("Sup"));
 
         // Existing middle-level word.
-        Assert.assertTrue(trie.contains("Super"));
+        assertTrue(trie.contains("Super"));
 
         // Existing leaf word.
-        Assert.assertTrue(trie.contains("Supernaturally"));
+        assertTrue(trie.contains("Supernaturally"));
 
         // Non-existing word with existing path.
-        Assert.assertFalse(trie.contains("Supernat"));
+        assertFalse(trie.contains("Supernat"));
 
         // Non-existing word with non-existing path.
-        Assert.assertFalse(trie.contains("Brother"));
+        assertFalse(trie.contains("Brother"));
     }
 
     @Test
     public void testTrieStartsWith() {
 
         // Existing top-level word.
-        Assert.assertEquals(7, trie.startsWith("Sup").size());
+        assertEquals(7, trie.startsWith("Sup").size());
 
         // Existing leaf word.
-        Assert.assertEquals(1, trie.startsWith("Superb").size());
+        assertEquals(1, trie.startsWith("Superb").size());
 
         // Non-existing word with existing path.
-        Assert.assertEquals(3, trie.startsWith("Supernat").size());
+        assertEquals(3, trie.startsWith("Supernat").size());
 
         // Non-existing word with partial path.
-        Assert.assertEquals(0, trie.startsWith("Superf").size());
+        assertEquals(0, trie.startsWith("Superf").size());
 
         // Non-existing word with non-existing path.
-        Assert.assertEquals(0, trie.startsWith("ABC").size());
+        assertEquals(0, trie.startsWith("ABC").size());
 
     }
 }

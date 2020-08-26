@@ -4,13 +4,11 @@ import com.bix.data.structures.helpers.AvlTreeHelper;
 import com.bix.data.structures.helpers.FunctionalInteger;
 import com.bix.data.structures.helpers.RandomHelper;
 import com.bix.data.structures.trees.avl.AvlTree;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Random;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by bmoshe on 23/07/16.
@@ -23,16 +21,20 @@ public class AvlTreeTests {
     public void testAscendingTreeConstruction() {
 
         AvlTree<Integer> tree = AvlTreeHelper.create((i, N) -> N - i, N);
-        Assert.assertTrue("Failed to test random tree construction for depth = " + tree.getDepth() + " and nodeCounter = " + tree.getNodeCounter(),
-                          tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()));
+        assertTrue(
+            tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()),
+            "Failed to test random tree construction for depth = " + tree.getDepth() + " and nodeCounter = " + tree.getNodeCounter()
+        );
     }
 
     @Test
     public void testDescendingTreeConstruction() {
 
         AvlTree<Integer> tree = AvlTreeHelper.create((i, N) -> i, N);
-        Assert.assertTrue("Failed to test random tree construction for depth = " + tree.getDepth() + " and nodeCounter = " + tree.getNodeCounter(),
-                          tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()));
+        assertTrue(
+            tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()),
+            "Failed to test random tree construction for depth = " + tree.getDepth() + " and nodeCounter = " + tree.getNodeCounter()
+        );
     }
 
     @Test
@@ -41,8 +43,10 @@ public class AvlTreeTests {
         final Random random = RandomHelper.createRandom();
 
         AvlTree<Integer> tree = AvlTreeHelper.create((i, N) -> random.nextInt(N), N);
-        Assert.assertTrue("Failed to test random tree construction for depth = " + tree.getDepth() + " and nodeCounter = " + tree.getNodeCounter(),
-                          tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()));
+        assertTrue(
+            tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()),
+            "Failed to test random tree construction for depth = " + tree.getDepth() + " and nodeCounter = " + tree.getNodeCounter()
+        );
     }
 
     @Test
@@ -52,10 +56,10 @@ public class AvlTreeTests {
         AvlTree<Integer> tree = AvlTreeHelper.create((i, N) -> 2 * random.nextInt(N), N); // all even.
 
         int itemToRemove = 2 * random.nextInt(N / 2) + 1; // an odd
-        Assert.assertFalse("Failed to test contains when item does not exist", tree.contains(itemToRemove));
+        assertFalse(tree.contains(itemToRemove), "Failed to test contains when item does not exist");
 
         tree.insert(itemToRemove);
-        Assert.assertTrue("Failed to test contains when item exists", tree.contains(itemToRemove));
+        assertTrue(tree.contains(itemToRemove), "Failed to test contains when item exists");
     }
 
     @Test
@@ -64,7 +68,7 @@ public class AvlTreeTests {
 
         final FunctionalInteger k = new FunctionalInteger(Integer.MIN_VALUE);
         tree.scanAscendingly((v) -> {
-            Assert.assertTrue(k.getValue() < v);
+            assertTrue(k.getValue() < v);
             k.setValue(v);
         });
     }
@@ -75,7 +79,7 @@ public class AvlTreeTests {
 
         final FunctionalInteger k = new FunctionalInteger(Integer.MAX_VALUE);
         tree.scanDescendingly((v) -> {
-            Assert.assertTrue(v < k.getValue());
+            assertTrue(v < k.getValue());
             k.setValue(v);
         });
     }
@@ -94,7 +98,7 @@ public class AvlTreeTests {
 
         final Integer[] expectedPreOrderValues = new Integer[] { 5, 3, 1, 4, 8, 6, 10 };
         final FunctionalInteger k = new FunctionalInteger(0);
-        tree.scanPreOrder((v) -> Assert.assertEquals(expectedPreOrderValues[k.getAndIncrement()], v));
+        tree.scanPreOrder((v) -> assertEquals(expectedPreOrderValues[k.getAndIncrement()], v));
     }
 
     @Test
@@ -111,23 +115,23 @@ public class AvlTreeTests {
 
         final Integer[] expectedPostOrderValues = new Integer[] { 1, 4, 3, 6, 10, 8, 5 };
         final FunctionalInteger k = new FunctionalInteger(0);
-        tree.scanPostOrder((v) -> Assert.assertEquals(expectedPostOrderValues[k.getAndIncrement()], v));
+        tree.scanPostOrder((v) -> assertEquals(expectedPostOrderValues[k.getAndIncrement()], v));
     }
 
     @Test
     public void testEmptyTree() {
         AvlTree<Integer> tree = AvlTreeHelper.createEmpty();
 
-        Assert.assertNull(tree.getRoot());
-        Assert.assertEquals(tree.getDepth(), 0);
-        Assert.assertEquals(tree.getNodeCounter(), 0);
-        Assert.assertFalse(tree.contains(0));
+        assertNull(tree.getRoot());
+        assertEquals(tree.getDepth(), 0);
+        assertEquals(tree.getNodeCounter(), 0);
+        assertFalse(tree.contains(0));
 
         tree.insert(0);
-        Assert.assertNotNull(tree.getRoot());
-        Assert.assertEquals(tree.getDepth(), 1);
-        Assert.assertEquals(tree.getRoot(), (Integer) 0);
-        Assert.assertEquals(tree.getNodeCounter(), 1);
+        assertNotNull(tree.getRoot());
+        assertEquals(tree.getDepth(), 1);
+        assertEquals(tree.getRoot(), (Integer) 0);
+        assertEquals(tree.getNodeCounter(), 1);
     }
 
     @Test
@@ -138,14 +142,14 @@ public class AvlTreeTests {
         for(int i = 0; i < N; i += 3)
             tree.delete(i);
 
-        Assert.assertTrue(tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()));
+        assertTrue(tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()));
 
         final FunctionalInteger k = new FunctionalInteger();
         tree.scanAscendingly((v) -> {
             if(k.getValue() % 3 == 0)
                 k.increment();
 
-            Assert.assertEquals(k.getValue(), v);
+            assertEquals(k.getValue(), v);
             k.increment();
         });
 
@@ -154,14 +158,14 @@ public class AvlTreeTests {
         for(int i = 0; i < N; i += 3)
             tree.delete(i);
 
-        Assert.assertTrue(tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()));
+        assertTrue(tree.getDepth() <= expectedUpperBoundTreeDepth(tree.getNodeCounter()));
 
         k.setValue(0);
         tree.scanAscendingly((v) -> {
             if(k.getValue() % 3 == 0)
                 k.increment();
 
-            Assert.assertEquals(k.getValue(), v);
+            assertEquals(k.getValue(), v);
             k.increment();
         });
     }

@@ -1,8 +1,10 @@
 package com.bix.data.structures.sets;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 /**
  * Created by bmoshe on 30/07/16.
@@ -11,7 +13,7 @@ public class UnionFindTests {
 
     private UnionFind<String> unionFind;
 
-    @Before
+    @BeforeEach
     public void setupTest() {
         unionFind = new UnionFind<>();
 
@@ -24,8 +26,8 @@ public class UnionFindTests {
     public void testShallowUnion() {
         unionFind.union("A", "B");
 
-        Assert.assertEquals(unionFind.find("A"), unionFind.find("B"));
-        Assert.assertNotEquals(unionFind.find("A"), unionFind.find("C"));
+        assertEquals(unionFind.find("A"), unionFind.find("B"));
+        assertNotEquals(unionFind.find("A"), unionFind.find("C"));
     }
 
     @Test
@@ -35,7 +37,7 @@ public class UnionFindTests {
         unionFind.union("C", "D");
         unionFind.union("D", "E");
 
-        Assert.assertEquals(unionFind.find("B"), unionFind.find("D"));
+        assertEquals(unionFind.find("B"), unionFind.find("D"));
     }
 
     @Test
@@ -45,7 +47,7 @@ public class UnionFindTests {
         unionFind.union("C", "D");
         unionFind.union("D", "E");
 
-        Assert.assertEquals(unionFind.sizeOf("B"),5);
+        assertEquals(unionFind.sizeOf("B"),5);
     }
 
 
@@ -60,7 +62,7 @@ public class UnionFindTests {
         String initialImmediateRepresentative = unionFind.immediateRepresentativeOf("B");
         String finalRepresentative = unionFind.find("B");
         String immediateRepresentative = unionFind.immediateRepresentativeOf("B");
-        Assert.assertNotEquals(initialImmediateRepresentative, finalRepresentative);
-        Assert.assertEquals(finalRepresentative,immediateRepresentative);
+        assertNotEquals(initialImmediateRepresentative, finalRepresentative);
+        assertEquals(finalRepresentative,immediateRepresentative);
     }
 }
